@@ -23,5 +23,5 @@
 - [架构师启蒙三](https://qicainiao.github.io/myblog/架构师启蒙三mpa.html)
 - [架构师启蒙四](https://qicainiao.github.io/myblog/架构师启蒙四.html)
 - [架构师启蒙五](https://qicainiao.github.io/myblog/架构师启蒙五.html)
-- [架构师启蒙六](https://qicainiao.github.io/myblog/架构师启蒙课六（阶段小结）.html)
-- [架构师启蒙六](https://qicainiao.github.io/myblog/架构师启蒙课六（较难的IOC）.html)
+- [架构师启蒙六（阶段小结）](https://qicainiao.github.io/myblog/架构师启蒙课六（阶段小结）.html)
+- [架构师启蒙六（较难的IOC）](https://qicainiao.github.io/myblog/架构师启蒙课六（较难的IOC）.html)
