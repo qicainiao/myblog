@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MarkdownPad Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // 新增Contains选择器，:contains的变异版，增加忽略大小写功能
+        $.expr[':'].Contains = function(a, i, m){
+            return jQuery(a).text().toUpperCase().indexOf(m[3].
+                toUpperCase()) >= 0;
+        };
+
+        // 创建class为toc的div元素
+        let $toc = $('<div></div>');
+        $toc.attr('class', 'toc');
+
+        // 获取h1-h6元素
+        let $headers = $('h1,h2,h3,h4,h5,h6');
+
+        // 获取第一个hx元素，注意是dom对象，非jQuery对象
+        let firstHeader = $headers[0];
+
+        if (firstHeader) {
+            // 获取第一个hx元素的层级
+            let firstLevel = parseInt(firstHeader.tagName.
+                replace('H', ''), 10);
+            // 给a元素唯一的href属性值
+            let id = `${firstHeader.textContent}-0`;
+
+            for (let i = 1; i <= firstLevel; i++) {
+                // 创建ul和li元素，并添加data-level属性
+                let $ul = $('<ul></ul>'),
+                    $li = $('<li></li>');
+                $li.attr('data-level', i);
+                $ul.attr('data-level', i).append($li);
+
+                // 获取data-level为i-1的li元素
+                let $pLi = $toc.find(`li[data-level=${i - 1}]`);
+
+                if ($pLi.length > 0) {
+                    // 找到data-level为i-1的元素，直接append到该li元素上即可
+                    $pLi.append($ul);
+                } else {
+                    // 未找到data-level为i-1的元素，说明是顶层的ul，
+                    // 直接append到class为toc的div元素上
+                    $toc.append($ul);
+                }
+            }
+
+            // 找到所属层级的li元素，并添加a元素
+            $toc.find(`li[data-level=${firstLevel}]`).append(
+                $(`<a href="#${id}">${firstHeader.textContent}</a>`));
+            // 与a元素的href对应，用于文档内跳转
+            $headers.eq(0).attr('id', id);
+        }
+
+        // 从第二个hx元素开始，循环$headers
+        for (let i = 1; i < $headers.length; i++) {
+            // 获取当前的hx元素的层级以及上一个hx元素的层级
+            let curLevel = parseInt($headers[i].tagName.replace('H', ''),
+                10),
+                lastLevel = parseInt($headers[i - 1].tagName.
+                    replace('H', ''), 10);
+            // 当前hx元素的文本元素
+            let textContent = $headers[i].textContent,
+                id = `${textContent}-i`;
+            // 给a元素唯一的href属性值，与hx元素的id对应
+            let $a = $(`<a href="#${id}">${textContent}</a>`);
+
+            if (lastLevel < curLevel) {
+                // 如果当前层级比上一个层级大，则从上一个层级+1到当前层级循环，
+                // 循环添加ul和li元素
+                for (let j = lastLevel + 1; j <= curLevel; j++) {
+                    // 创建ul和li元素，并添加data-level属性
+                    let $u = $('<ul></ul>'),
+                        $l = $('<li></li>');
+                    $l.attr('data-level', j);
+                    $u.attr('data-level', j).append($l);
+
+                    // 找到data-level为j-1的最后一个li元素，并添加$u
+                    $toc.find(`li[data-level=${j - 1}]:last`).append($u);
+                }
+                // 找到data-level为curLevel的最后一个li，并添加$a
+                $toc.find(`li[data-level=${curLevel}]:last`).append($a);
+            } else if (lastLevel === curLevel) {
+                // 如果当前层级和上一个层级相等，则找到相同层级的li元素的父元素，
+                // 创建li元素并添加上去
+                // 已经存在data-level为curLevel的ul，只需要创建li即可
+                let $l = $('<li></li>');
+
+                // 给li元素添加data-level树形，并添加$a
+                // 找到data-level为curLevel的最后一个li元素的父元素，添加$l
+                $toc.find(`li[data-level=${curLevel}]:last`).parent().
+                    append($l.attr('data-level', curLevel).append($a));
+            } else {
+                // 如果当前层级小于上一个层级，则找到最后一个相同层级的li元素的
+                // 父元素，添加$l
+                // 找到data-level为curLevel的最后一个li元素,必然存在
+                let $sublingLi = $toc.
+                    find(`li[data-level=${curLevel}]:last`);
+                let $l = $('<li></li>');
+
+                // 找到$sublingLi的父元素,添加li元素即可
+                $sublingLi.parent().append($l.attr('data-level', curLevel).
+                    append($a));
+            }
+
+            $headers.eq(i).attr('id', id);
+        }
+
+
+        // 清除p元素的文本内容，并将$toc元素append到p元素
+        $('p:Contains([TOC]):first').text('').append($toc);
+    });
+</script>
+</head>
+<body>
+<h1>错误监控上报的系统</h1>
+<p>🌈:
+错误监控上报的系统，大家有靠谱的推荐吗</p>
+<p>菁:
+sentry</p>
+<p>🌈:
+上手好难鸭</p>
+<p>🌈:
+我们好像是申请不下来服务器</p>
+<p>🌈:
+本来想用fundebug，但是今天试了一下有点不准</p>
+<p>🌈:
+想知道还有什么付费的 错误监控上报的系统 推荐吗</p>
+<p>🌈:
+之前想用betterjs的
+🌈:
+之前想用betterjs的</p>
+<p>志佳 | 京程一灯:
+自己写</p>
+<p>🌈:
+😭老袁你来了</p>
+<p>🌈:
+你有啥靠谱的付费监控系统，推荐一下</p>
+<p>🌈:
+你见多识广</p>
+<p>志佳 | 京程一灯:
+Sessionstack</p>
+<p>志佳 | 京程一灯:
+你试试</p>
+<p>🌈:
+昨天老大刚给我分了3个小弟，我好方，有事情都得好好查了再汇报，免得显得我无能😭</p>
+<p>🌈:
+好，谢谢老袁我先去看看</p>
+<p>志佳 | 京程一灯:
+Fundebug也还可以其实</p>
+<p>志佳 | 京程一灯:</p>
+<p>李超:
+哈哈    三个小弟  挺多的</p>
+<p>🌈:
+有错误捕获不到啊</p>
+<p><img src="错误捕捉_files/1.png" /></p>
+<p>🌈:
+[图片]</p>
+<p>李超:
+有领导力就行  技术次要的</p>
+<p>🌈:
+[图片]</p>
+<p>🌈:
+开发者已经不理我了</p>
+<p>🌈:
+报警邮件也没发</p>
+<p>李超:
+[倒地]</p>
+<p>志佳 | 京程一灯:
+哦哦</p>
+<p>志佳 | 京程一灯:
+这个啊</p>
+<p>志佳 | 京程一灯:
+这个你用eslint</p>
+<p>志佳 | 京程一灯:
+这种错误直接没等上线就被你拦截到了</p>
+<p>志佳 | 京程一灯:
+Fundebug是拦截线上也许错误啥的</p>
+<p>志佳 | 京程一灯:
+明白了不</p>
+<p>🌈:
+原来是这样！</p>
+<p>志佳 | 京程一灯:
+对啊</p>
+<p>🌈:
+还是老袁靠谱，这个开发者自己都想不明白。。</p>
+<p>Cody:
+语法错误直接打包时候过滤吧</p>
+<p>🌈:
+还有这种操作吗？</p>
+<p>志佳 | 京程一灯:
+{</p>
+<p>&quot;build&quot;:&quot;&quot;,
+ &quot;prebuild&quot;:&quot;eslint&quot;
+}</p>
+<p>🌈:
+最近一开口就觉得自己很无知</p>
+<p>志佳 | 京程一灯:
+这样就可以了啊</p>
+<p>志佳 | 京程一灯:
+啥也不用改</p>
+<p>志佳 | 京程一灯:
+给package.json加个钩子</p>
+<p>🌈:
+我们有eslint呀，是不是校验规则不够严格，我去看看</p>
+<p>志佳 | 京程一灯:
+在build前价格生命周期 他自己就lint 剩下的错误类似于网络错误啊 promise错误啊这种Eslint管不了 也就是说eslint管静态 fundebug管动态运行的</p>
+<p>志佳 | 京程一灯:
+加一个就行了 得加 要不你那个代码确实fubdebug也有点无能为了 而且他有些时候对es5敏感些 es6他hold不住</p>
+<p>志佳 | 京程一灯:
+听我的吧 没问题</p>
+<p>志佳 | 京程一灯:
+eslint 1个小时就配利索了</p>
+<p>🌈:
+eslint是有的呢</p>
+<p>🌈:
+可是没校验出来呀</p>
+<p>志佳 | 京程一灯:
+加规则</p>
+<p>🌈:
+好，我搜搜去</p>
+<p>志佳 | 京程一灯:
+[嗯嗯]</p>
+<p>🌈:
+谢谢老袁</p>
+<p>志佳 | 京程一灯:
+客气啥</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

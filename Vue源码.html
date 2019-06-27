@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vue源码</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // 新增Contains选择器，:contains的变异版，增加忽略大小写功能
+        $.expr[':'].Contains = function(a, i, m){
+            return jQuery(a).text().toUpperCase().indexOf(m[3].
+                toUpperCase()) >= 0;
+        };
+
+        // 创建class为toc的div元素
+        let $toc = $('<div></div>');
+        $toc.attr('class', 'toc');
+
+        // 获取h1-h6元素
+        let $headers = $('h1,h2,h3,h4,h5,h6');
+
+        // 获取第一个hx元素，注意是dom对象，非jQuery对象
+        let firstHeader = $headers[0];
+
+        if (firstHeader) {
+            // 获取第一个hx元素的层级
+            let firstLevel = parseInt(firstHeader.tagName.
+                replace('H', ''), 10);
+            // 给a元素唯一的href属性值
+            let id = `${firstHeader.textContent}-0`;
+
+            for (let i = 1; i <= firstLevel; i++) {
+                // 创建ul和li元素，并添加data-level属性
+                let $ul = $('<ul></ul>'),
+                    $li = $('<li></li>');
+                $li.attr('data-level', i);
+                $ul.attr('data-level', i).append($li);
+
+                // 获取data-level为i-1的li元素
+                let $pLi = $toc.find(`li[data-level=${i - 1}]`);
+
+                if ($pLi.length > 0) {
+                    // 找到data-level为i-1的元素，直接append到该li元素上即可
+                    $pLi.append($ul);
+                } else {
+                    // 未找到data-level为i-1的元素，说明是顶层的ul，
+                    // 直接append到class为toc的div元素上
+                    $toc.append($ul);
+                }
+            }
+
+            // 找到所属层级的li元素，并添加a元素
+            $toc.find(`li[data-level=${firstLevel}]`).append(
+                $(`<a href="#${id}">${firstHeader.textContent}</a>`));
+            // 与a元素的href对应，用于文档内跳转
+            $headers.eq(0).attr('id', id);
+        }
+
+        // 从第二个hx元素开始，循环$headers
+        for (let i = 1; i < $headers.length; i++) {
+            // 获取当前的hx元素的层级以及上一个hx元素的层级
+            let curLevel = parseInt($headers[i].tagName.replace('H', ''),
+                10),
+                lastLevel = parseInt($headers[i - 1].tagName.
+                    replace('H', ''), 10);
+            // 当前hx元素的文本元素
+            let textContent = $headers[i].textContent,
+                id = `${textContent}-i`;
+            // 给a元素唯一的href属性值，与hx元素的id对应
+            let $a = $(`<a href="#${id}">${textContent}</a>`);
+
+            if (lastLevel < curLevel) {
+                // 如果当前层级比上一个层级大，则从上一个层级+1到当前层级循环，
+                // 循环添加ul和li元素
+                for (let j = lastLevel + 1; j <= curLevel; j++) {
+                    // 创建ul和li元素，并添加data-level属性
+                    let $u = $('<ul></ul>'),
+                        $l = $('<li></li>');
+                    $l.attr('data-level', j);
+                    $u.attr('data-level', j).append($l);
+
+                    // 找到data-level为j-1的最后一个li元素，并添加$u
+                    $toc.find(`li[data-level=${j - 1}]:last`).append($u);
+                }
+                // 找到data-level为curLevel的最后一个li，并添加$a
+                $toc.find(`li[data-level=${curLevel}]:last`).append($a);
+            } else if (lastLevel === curLevel) {
+                // 如果当前层级和上一个层级相等，则找到相同层级的li元素的父元素，
+                // 创建li元素并添加上去
+                // 已经存在data-level为curLevel的ul，只需要创建li即可
+                let $l = $('<li></li>');
+
+                // 给li元素添加data-level树形，并添加$a
+                // 找到data-level为curLevel的最后一个li元素的父元素，添加$l
+                $toc.find(`li[data-level=${curLevel}]:last`).parent().
+                    append($l.attr('data-level', curLevel).append($a));
+            } else {
+                // 如果当前层级小于上一个层级，则找到最后一个相同层级的li元素的
+                // 父元素，添加$l
+                // 找到data-level为curLevel的最后一个li元素,必然存在
+                let $sublingLi = $toc.
+                    find(`li[data-level=${curLevel}]:last`);
+                let $l = $('<li></li>');
+
+                // 找到$sublingLi的父元素,添加li元素即可
+                $sublingLi.parent().append($l.attr('data-level', curLevel).
+                    append($a));
+            }
+
+            $headers.eq(i).attr('id', id);
+        }
+
+
+        // 清除p元素的文本内容，并将$toc元素append到p元素
+        $('p:Contains([TOC]):first').text('').append($toc);
+    });
+</script>
+</head>
+<body>
+<p><html></p>
+<head>
+<title>Vue源码</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // 新增Contains选择器，:contains的变异版，增加忽略大小写功能
+        $.expr[':'].Contains = function(a, i, m){
+            return jQuery(a).text().toUpperCase().indexOf(m[3].
+                toUpperCase()) >= 0;
+        };
+
+        // 创建class为toc的div元素
+        let $toc = $('<div></div>');
+        $toc.attr('class', 'toc');
+
+        // 获取h1-h6元素
+        let $headers = $('h1,h2,h3,h4,h5,h6');
+
+        // 获取第一个hx元素，注意是dom对象，非jQuery对象
+        let firstHeader = $headers[0];
+
+        if (firstHeader) {
+            // 获取第一个hx元素的层级
+            let firstLevel = parseInt(firstHeader.tagName.
+                replace('H', ''), 10);
+            // 给a元素唯一的href属性值
+            let id = `${firstHeader.textContent}-0`;
+
+            for (let i = 1; i <= firstLevel; i++) {
+                // 创建ul和li元素，并添加data-level属性
+                let $ul = $('<ul></ul>'),
+                    $li = $('<li></li>');
+                $li.attr('data-level', i);
+                $ul.attr('data-level', i).append($li);
+
+                // 获取data-level为i-1的li元素
+                let $pLi = $toc.find(`li[data-level=${i - 1}]`);
+
+                if ($pLi.length > 0) {
+                    // 找到data-level为i-1的元素，直接append到该li元素上即可
+                    $pLi.append($ul);
+                } else {
+                    // 未找到data-level为i-1的元素，说明是顶层的ul，
+                    // 直接append到class为toc的div元素上
+                    $toc.append($ul);
+                }
+            }
+
+            // 找到所属层级的li元素，并添加a元素
+            $toc.find(`li[data-level=${firstLevel}]`).append(
+                $(`<a href="#${id}">${firstHeader.textContent}</a>`));
+            // 与a元素的href对应，用于文档内跳转
+            $headers.eq(0).attr('id', id);
+        }
+
+        // 从第二个hx元素开始，循环$headers
+        for (let i = 1; i < $headers.length; i++) {
+            // 获取当前的hx元素的层级以及上一个hx元素的层级
+            let curLevel = parseInt($headers[i].tagName.replace('H', ''),
+                10),
+                lastLevel = parseInt($headers[i - 1].tagName.
+                    replace('H', ''), 10);
+            // 当前hx元素的文本元素
+            let textContent = $headers[i].textContent,
+                id = `${textContent}-i`;
+            // 给a元素唯一的href属性值，与hx元素的id对应
+            let $a = $(`<a href="#${id}">${textContent}</a>`);
+
+            if (lastLevel < curLevel) {
+                // 如果当前层级比上一个层级大，则从上一个层级+1到当前层级循环，
+                // 循环添加ul和li元素
+                for (let j = lastLevel + 1; j <= curLevel; j++) {
+                    // 创建ul和li元素，并添加data-level属性
+                    let $u = $('<ul></ul>'),
+                        $l = $('<li></li>');
+                    $l.attr('data-level', j);
+                    $u.attr('data-level', j).append($l);
+
+                    // 找到data-level为j-1的最后一个li元素，并添加$u
+                    $toc.find(`li[data-level=${j - 1}]:last`).append($u);
+                }
+                // 找到data-level为curLevel的最后一个li，并添加$a
+                $toc.find(`li[data-level=${curLevel}]:last`).append($a);
+            } else if (lastLevel === curLevel) {
+                // 如果当前层级和上一个层级相等，则找到相同层级的li元素的父元素，
+                // 创建li元素并添加上去
+                // 已经存在data-level为curLevel的ul，只需要创建li即可
+                let $l = $('<li></li>');
+
+                // 给li元素添加data-level树形，并添加$a
+                // 找到data-level为curLevel的最后一个li元素的父元素，添加$l
+                $toc.find(`li[data-level=${curLevel}]:last`).parent().
+                    append($l.attr('data-level', curLevel).append($a));
+            } else {
+                // 如果当前层级小于上一个层级，则找到最后一个相同层级的li元素的
+                // 父元素，添加$l
+                // 找到data-level为curLevel的最后一个li元素,必然存在
+                let $sublingLi = $toc.
+                    find(`li[data-level=${curLevel}]:last`);
+                let $l = $('<li></li>');
+
+                // 找到$sublingLi的父元素,添加li元素即可
+                $sublingLi.parent().append($l.attr('data-level', curLevel).
+                    append($a));
+            }
+
+            $headers.eq(i).attr('id', id);
+        }
+
+
+        // 清除p元素的文本内容，并将$toc元素append到p元素
+        $('p:Contains([TOC]):first').text('').append($toc);
+    });
+</script>
+</head>
+<p><body></p>
+<h1>VUE源码</h1>
+<p><img src="VUE源码_files/1.png" />
+  <img src="VUE源码_files/2.png" /></p>
+<h2>数据双向绑定</h2>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  手写一个简单双向绑定&lt;br/&gt;
+ &lt;input type=&quot;text&quot; id=&quot;model&quot; onchange=&quot;handleChange(this.value)&quot;&gt;&lt;br/&gt;
+ &lt;div id=&quot;modelText&quot;&gt;&lt;/div&gt;
+
+ &lt;script&gt;
+var user = {};
+var defaultName = &quot;狂奔的蜗牛&quot;;
+
+document.querySelector(&quot;#model&quot;).value = defaultName;
+document.querySelector(&quot;#modelText&quot;).textContent = defaultName;
+
+//定义属性 监控改变
+Object.defineProperty(user,&quot;name&quot;,{
+  get:function(){
+console.log(&quot;你是不是来获取值啦&quot;);
+return defaultName;
+  },
+  set:function(newValue){
+console.log(&quot;设置新值&quot;);
+defaultName = newValue;
+console.log(&quot;实现 模型 =&gt; 视图&quot;);
+document.querySelector(&quot;#model&quot;).value = newValue;
+document.querySelector(&quot;#modelText&quot;).textContent = newValue;
+  }
+})
+
+function handleChange(val){  //鼠标移除input框之后才执行
+   console.log(val);
+ user.name = val;
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p></body>
+</html></p>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
+<p><img src="VUE源码_files/3.png" /></p>
+<p>setter触发消息到Watcher，watcher告诉Directive更新DOM，DOM中修改了数据也会通知给Watcher，watcher帮忙修改数据</p>
+<p>每当你去写一个v-text=&quot;a.b&quot;这样的vue的语法的时候，他会创建一个watcher，watcher把这个值写给对象A。一单a.b被修改了watcher会监听到通知Directive更新DOM</p>
+<p><img src="VUE源码_files/4.png" /></p>
+<p>Watcher不直接连接数据中心了，而是在中间加了一个观察者模式也叫发布订阅模式。 如果没有观察者模式，那么所有的Watcher的值都写给大爷，大爷脑袋不好使。 弄一个电话本 Dep去记录，由大爷和Watcher共同管理，由大爷写入电话本，报纸来了群发</p>
+<p>那么看一下大爷怎么实现观察者模式</p>
+<p><img src="VUE源码_files/5.png" /></p>
+<p><img src="VUE源码_files/6.png" /></p>
+<pre><code>function Dep(){
+  this.subs=[];
+}
+
+Dep.prototype.notify= function(){
+  this.subs.forEach(function(sub){
+sub.update();
+  })
+}
+
+function Sub(x){
+  this.x= x;
+}
+
+Sub.prototype.update= function(){
+  this.x=this.x+1;
+  console.log(this.x);
+}
+
+var pub = {
+  publish:function(){
+dep.notify();
+  }
+}
+
+var dep= new Dep();
+dep.subs.push(new Sub(1),new Sub(2));
+pub.publish();
+VM251:17 2
+VM251:17 3
+</code></pre>
+
+<p><img src="VUE源码_files/7.png" /></p>
+<p><img src="VUE源码_files/8.png" /></p>
+<p><img src="VUE源码_files/9.png" /></p>
+<p><img src="VUE源码_files/10.png" /></p>
+<p><img src="VUE源码_files/11.png" /></p>
+<p>vue实现了双向数据绑定，react是单向流，是state数据驱动的状态机。
+virtualDom 是在内存操作Dom。</p>
+<p><img src="VUE源码_files/12.png" /></p>
+<h1>微任务（microtask） 和 宏任务（macrotask） EventLoop</h1>
+<pre><code>setTimeout(function(){
+  console.log(1);
+})
+
+new Promise(function(resolve,reject){
+  console.log(2);
+  resolve();
+  console.log(3);
+}).then(function(){
+  console.log(4);
+})
+console.log(5)
+
+//结果  2 3 5 4 1
+</code></pre>
+
+<p>js有同步的执行栈和异步的执行队列，同步的先执行，异步的再执行（ajax、setTimeout、 Promise的then）。 异步的里面分宏队列和微队列，微队列的优先级高于宏队列。 当同步队列的执行栈执行完毕之后，把异步队列的代码拉回到同步队列去执行。</p>
+<pre><code>Event Loop 执行顺序如下所示：
+
+首先执行同步代码，这属于宏任务
+当执行完所有同步代码后，执行栈为空，查询是否有异步代码需要执行
+执行所有微任务
+当执行完所有微任务后，如有必要会渲染页面
+然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是 setTimeout 中的回调函数
+所以以上代码虽然 setTimeout 写在 Promise 之前，但是因为 Promise 属于微任务而 setTimeout 属于宏任务，所以会有以上的打印。
+
+微任务包括 process.nextTick ，promise ，MutationObserver，其中 process.nextTick 为 Node 独有。
+
+宏任务包括 script ， setTimeout ，setInterval ，setImmediate ，I/O ，UI rendering。
+</code></pre>
+
+<p>例子</p>
+<pre><code>console.log('script start')
+
+async function async1() {
+  await async2()
+  console.log('async1 end')
+}
+async function async2() {
+  console.log('async2 end')
+}
+async1()
+
+setTimeout(function() {
+  console.log('setTimeout')
+}, 0)
+
+new Promise(resolve =&gt; {
+  console.log('Promise')
+  resolve()
+})
+  .then(function() {
+console.log('promise1')
+  })
+  .then(function() {
+console.log('promise2')
+  })
+
+console.log('script end')
+// script start =&gt; async2 end =&gt; Promise =&gt; script end =&gt; promise1 =&gt; promise2 =&gt; async1 end =&gt; setTimeout
+</code></pre>
+
+<p>把async 的这两个函数改造成你一定能理解的代码</p>
+<pre><code>new Promise((resolve, reject) =&gt; {
+  console.log('async2 end')
+  // Promise.resolve() 将代码插入微任务队列尾部
+  // resolve 再次插入微任务队列尾部
+  resolve(Promise.resolve())
+}).then(() =&gt; {
+  console.log('async1 end')
+})
+</code></pre>
+
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

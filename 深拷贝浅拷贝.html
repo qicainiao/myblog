@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>深拷贝浅拷贝</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // 新增Contains选择器，:contains的变异版，增加忽略大小写功能
+        $.expr[':'].Contains = function(a, i, m){
+            return jQuery(a).text().toUpperCase().indexOf(m[3].
+                toUpperCase()) >= 0;
+        };
+
+        // 创建class为toc的div元素
+        let $toc = $('<div></div>');
+        $toc.attr('class', 'toc');
+
+        // 获取h1-h6元素
+        let $headers = $('h1,h2,h3,h4,h5,h6');
+
+        // 获取第一个hx元素，注意是dom对象，非jQuery对象
+        let firstHeader = $headers[0];
+
+        if (firstHeader) {
+            // 获取第一个hx元素的层级
+            let firstLevel = parseInt(firstHeader.tagName.
+                replace('H', ''), 10);
+            // 给a元素唯一的href属性值
+            let id = `${firstHeader.textContent}-0`;
+
+            for (let i = 1; i <= firstLevel; i++) {
+                // 创建ul和li元素，并添加data-level属性
+                let $ul = $('<ul></ul>'),
+                    $li = $('<li></li>');
+                $li.attr('data-level', i);
+                $ul.attr('data-level', i).append($li);
+
+                // 获取data-level为i-1的li元素
+                let $pLi = $toc.find(`li[data-level=${i - 1}]`);
+
+                if ($pLi.length > 0) {
+                    // 找到data-level为i-1的元素，直接append到该li元素上即可
+                    $pLi.append($ul);
+                } else {
+                    // 未找到data-level为i-1的元素，说明是顶层的ul，
+                    // 直接append到class为toc的div元素上
+                    $toc.append($ul);
+                }
+            }
+
+            // 找到所属层级的li元素，并添加a元素
+            $toc.find(`li[data-level=${firstLevel}]`).append(
+                $(`<a href="#${id}">${firstHeader.textContent}</a>`));
+            // 与a元素的href对应，用于文档内跳转
+            $headers.eq(0).attr('id', id);
+        }
+
+        // 从第二个hx元素开始，循环$headers
+        for (let i = 1; i < $headers.length; i++) {
+            // 获取当前的hx元素的层级以及上一个hx元素的层级
+            let curLevel = parseInt($headers[i].tagName.replace('H', ''),
+                10),
+                lastLevel = parseInt($headers[i - 1].tagName.
+                    replace('H', ''), 10);
+            // 当前hx元素的文本元素
+            let textContent = $headers[i].textContent,
+                id = `${textContent}-i`;
+            // 给a元素唯一的href属性值，与hx元素的id对应
+            let $a = $(`<a href="#${id}">${textContent}</a>`);
+
+            if (lastLevel < curLevel) {
+                // 如果当前层级比上一个层级大，则从上一个层级+1到当前层级循环，
+                // 循环添加ul和li元素
+                for (let j = lastLevel + 1; j <= curLevel; j++) {
+                    // 创建ul和li元素，并添加data-level属性
+                    let $u = $('<ul></ul>'),
+                        $l = $('<li></li>');
+                    $l.attr('data-level', j);
+                    $u.attr('data-level', j).append($l);
+
+                    // 找到data-level为j-1的最后一个li元素，并添加$u
+                    $toc.find(`li[data-level=${j - 1}]:last`).append($u);
+                }
+                // 找到data-level为curLevel的最后一个li，并添加$a
+                $toc.find(`li[data-level=${curLevel}]:last`).append($a);
+            } else if (lastLevel === curLevel) {
+                // 如果当前层级和上一个层级相等，则找到相同层级的li元素的父元素，
+                // 创建li元素并添加上去
+                // 已经存在data-level为curLevel的ul，只需要创建li即可
+                let $l = $('<li></li>');
+
+                // 给li元素添加data-level树形，并添加$a
+                // 找到data-level为curLevel的最后一个li元素的父元素，添加$l
+                $toc.find(`li[data-level=${curLevel}]:last`).parent().
+                    append($l.attr('data-level', curLevel).append($a));
+            } else {
+                // 如果当前层级小于上一个层级，则找到最后一个相同层级的li元素的
+                // 父元素，添加$l
+                // 找到data-level为curLevel的最后一个li元素,必然存在
+                let $sublingLi = $toc.
+                    find(`li[data-level=${curLevel}]:last`);
+                let $l = $('<li></li>');
+
+                // 找到$sublingLi的父元素,添加li元素即可
+                $sublingLi.parent().append($l.attr('data-level', curLevel).
+                    append($a));
+            }
+
+            $headers.eq(i).attr('id', id);
+        }
+
+
+        // 清除p元素的文本内容，并将$toc元素append到p元素
+        $('p:Contains([TOC]):first').text('').append($toc);
+    });
+</script>
+</head>
+<body>
+<p><html></p>
+<head>
+<title>深拷贝浅拷贝</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // 新增Contains选择器，:contains的变异版，增加忽略大小写功能
+        $.expr[':'].Contains = function(a, i, m){
+            return jQuery(a).text().toUpperCase().indexOf(m[3].
+                toUpperCase()) >= 0;
+        };
+
+        // 创建class为toc的div元素
+        let $toc = $('<div></div>');
+        $toc.attr('class', 'toc');
+
+        // 获取h1-h6元素
+        let $headers = $('h1,h2,h3,h4,h5,h6');
+
+        // 获取第一个hx元素，注意是dom对象，非jQuery对象
+        let firstHeader = $headers[0];
+
+        if (firstHeader) {
+            // 获取第一个hx元素的层级
+            let firstLevel = parseInt(firstHeader.tagName.
+                replace('H', ''), 10);
+            // 给a元素唯一的href属性值
+            let id = `${firstHeader.textContent}-0`;
+
+            for (let i = 1; i <= firstLevel; i++) {
+                // 创建ul和li元素，并添加data-level属性
+                let $ul = $('<ul></ul>'),
+                    $li = $('<li></li>');
+                $li.attr('data-level', i);
+                $ul.attr('data-level', i).append($li);
+
+                // 获取data-level为i-1的li元素
+                let $pLi = $toc.find(`li[data-level=${i - 1}]`);
+
+                if ($pLi.length > 0) {
+                    // 找到data-level为i-1的元素，直接append到该li元素上即可
+                    $pLi.append($ul);
+                } else {
+                    // 未找到data-level为i-1的元素，说明是顶层的ul，
+                    // 直接append到class为toc的div元素上
+                    $toc.append($ul);
+                }
+            }
+
+            // 找到所属层级的li元素，并添加a元素
+            $toc.find(`li[data-level=${firstLevel}]`).append(
+                $(`<a href="#${id}">${firstHeader.textContent}</a>`));
+            // 与a元素的href对应，用于文档内跳转
+            $headers.eq(0).attr('id', id);
+        }
+
+        // 从第二个hx元素开始，循环$headers
+        for (let i = 1; i < $headers.length; i++) {
+            // 获取当前的hx元素的层级以及上一个hx元素的层级
+            let curLevel = parseInt($headers[i].tagName.replace('H', ''),
+                10),
+                lastLevel = parseInt($headers[i - 1].tagName.
+                    replace('H', ''), 10);
+            // 当前hx元素的文本元素
+            let textContent = $headers[i].textContent,
+                id = `${textContent}-i`;
+            // 给a元素唯一的href属性值，与hx元素的id对应
+            let $a = $(`<a href="#${id}">${textContent}</a>`);
+
+            if (lastLevel < curLevel) {
+                // 如果当前层级比上一个层级大，则从上一个层级+1到当前层级循环，
+                // 循环添加ul和li元素
+                for (let j = lastLevel + 1; j <= curLevel; j++) {
+                    // 创建ul和li元素，并添加data-level属性
+                    let $u = $('<ul></ul>'),
+                        $l = $('<li></li>');
+                    $l.attr('data-level', j);
+                    $u.attr('data-level', j).append($l);
+
+                    // 找到data-level为j-1的最后一个li元素，并添加$u
+                    $toc.find(`li[data-level=${j - 1}]:last`).append($u);
+                }
+                // 找到data-level为curLevel的最后一个li，并添加$a
+                $toc.find(`li[data-level=${curLevel}]:last`).append($a);
+            } else if (lastLevel === curLevel) {
+                // 如果当前层级和上一个层级相等，则找到相同层级的li元素的父元素，
+                // 创建li元素并添加上去
+                // 已经存在data-level为curLevel的ul，只需要创建li即可
+                let $l = $('<li></li>');
+
+                // 给li元素添加data-level树形，并添加$a
+                // 找到data-level为curLevel的最后一个li元素的父元素，添加$l
+                $toc.find(`li[data-level=${curLevel}]:last`).parent().
+                    append($l.attr('data-level', curLevel).append($a));
+            } else {
+                // 如果当前层级小于上一个层级，则找到最后一个相同层级的li元素的
+                // 父元素，添加$l
+                // 找到data-level为curLevel的最后一个li元素,必然存在
+                let $sublingLi = $toc.
+                    find(`li[data-level=${curLevel}]:last`);
+                let $l = $('<li></li>');
+
+                // 找到$sublingLi的父元素,添加li元素即可
+                $sublingLi.parent().append($l.attr('data-level', curLevel).
+                    append($a));
+            }
+
+            $headers.eq(i).attr('id', id);
+        }
+
+
+        // 清除p元素的文本内容，并将$toc元素append到p元素
+        $('p:Contains([TOC]):first').text('').append($toc);
+    });
+</script>
+</head>
+<p><body></p>
+<p><html></p>
+<head>
+<title>MarkdownPad Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // 新增Contains选择器，:contains的变异版，增加忽略大小写功能
+        $.expr[':'].Contains = function(a, i, m){
+            return jQuery(a).text().toUpperCase().indexOf(m[3].
+                toUpperCase()) >= 0;
+        };
+
+        // 创建class为toc的div元素
+        let $toc = $('<div></div>');
+        $toc.attr('class', 'toc');
+
+        // 获取h1-h6元素
+        let $headers = $('h1,h2,h3,h4,h5,h6');
+
+        // 获取第一个hx元素，注意是dom对象，非jQuery对象
+        let firstHeader = $headers[0];
+
+        if (firstHeader) {
+            // 获取第一个hx元素的层级
+            let firstLevel = parseInt(firstHeader.tagName.
+                replace('H', ''), 10);
+            // 给a元素唯一的href属性值
+            let id = `${firstHeader.textContent}-0`;
+
+            for (let i = 1; i <= firstLevel; i++) {
+                // 创建ul和li元素，并添加data-level属性
+                let $ul = $('<ul></ul>'),
+                    $li = $('<li></li>');
+                $li.attr('data-level', i);
+                $ul.attr('data-level', i).append($li);
+
+                // 获取data-level为i-1的li元素
+                let $pLi = $toc.find(`li[data-level=${i - 1}]`);
+
+                if ($pLi.length > 0) {
+                    // 找到data-level为i-1的元素，直接append到该li元素上即可
+                    $pLi.append($ul);
+                } else {
+                    // 未找到data-level为i-1的元素，说明是顶层的ul，
+                    // 直接append到class为toc的div元素上
+                    $toc.append($ul);
+                }
+            }
+
+            // 找到所属层级的li元素，并添加a元素
+            $toc.find(`li[data-level=${firstLevel}]`).append(
+                $(`<a href="#${id}">${firstHeader.textContent}</a>`));
+            // 与a元素的href对应，用于文档内跳转
+            $headers.eq(0).attr('id', id);
+        }
+
+        // 从第二个hx元素开始，循环$headers
+        for (let i = 1; i < $headers.length; i++) {
+            // 获取当前的hx元素的层级以及上一个hx元素的层级
+            let curLevel = parseInt($headers[i].tagName.replace('H', ''),
+                10),
+                lastLevel = parseInt($headers[i - 1].tagName.
+                    replace('H', ''), 10);
+            // 当前hx元素的文本元素
+            let textContent = $headers[i].textContent,
+                id = `${textContent}-i`;
+            // 给a元素唯一的href属性值，与hx元素的id对应
+            let $a = $(`<a href="#${id}">${textContent}</a>`);
+
+            if (lastLevel < curLevel) {
+                // 如果当前层级比上一个层级大，则从上一个层级+1到当前层级循环，
+                // 循环添加ul和li元素
+                for (let j = lastLevel + 1; j <= curLevel; j++) {
+                    // 创建ul和li元素，并添加data-level属性
+                    let $u = $('<ul></ul>'),
+                        $l = $('<li></li>');
+                    $l.attr('data-level', j);
+                    $u.attr('data-level', j).append($l);
+
+                    // 找到data-level为j-1的最后一个li元素，并添加$u
+                    $toc.find(`li[data-level=${j - 1}]:last`).append($u);
+                }
+                // 找到data-level为curLevel的最后一个li，并添加$a
+                $toc.find(`li[data-level=${curLevel}]:last`).append($a);
+            } else if (lastLevel === curLevel) {
+                // 如果当前层级和上一个层级相等，则找到相同层级的li元素的父元素，
+                // 创建li元素并添加上去
+                // 已经存在data-level为curLevel的ul，只需要创建li即可
+                let $l = $('<li></li>');
+
+                // 给li元素添加data-level树形，并添加$a
+                // 找到data-level为curLevel的最后一个li元素的父元素，添加$l
+                $toc.find(`li[data-level=${curLevel}]:last`).parent().
+                    append($l.attr('data-level', curLevel).append($a));
+            } else {
+                // 如果当前层级小于上一个层级，则找到最后一个相同层级的li元素的
+                // 父元素，添加$l
+                // 找到data-level为curLevel的最后一个li元素,必然存在
+                let $sublingLi = $toc.
+                    find(`li[data-level=${curLevel}]:last`);
+                let $l = $('<li></li>');
+
+                // 找到$sublingLi的父元素,添加li元素即可
+                $sublingLi.parent().append($l.attr('data-level', curLevel).
+                    append($a));
+            }
+
+            $headers.eq(i).attr('id', id);
+        }
+
+
+        // 清除p元素的文本内容，并将$toc元素append到p元素
+        $('p:Contains([TOC]):first').text('').append($toc);
+    });
+</script>
+</head>
+<p><body></p>
+<h1>深拷贝浅拷贝</h1>
+<p>浅拷贝就是只复制了一层  深拷贝就是把一个对象中的属性,依次的,一个一个的复制到另一个对象中</p>
+<p>对象类型和原始类型不同的是，原始类型存储的是值，对象类型存储的是地址（指针）。</p>
+<p>当你创建了一个对象类型的时候，计算机会在内存中帮我们开辟一个空间来存放值，但是我们需要找到这个空间，这个空间会拥有一个地址（指针）。</p>
+<pre><code> const a = []
+//对于常量 a 来说，假设内存地址（指针）为 #001，那么在地址 #001 的位置存放了值 []，.
+//常量 a 存放了地址（指针） #001，再看以下代码
+//const a = []
+//const b = a
+//b.push(1)
+</code></pre>
+<p>当我们将变量赋值给另外一个变量时，复制的是原本变量的地址（指针），</p>
+<p>也就是说当前变量 b 存放的地址（指针）也是 #001，
+  当我们进行数据修改的时候，就会修改存放在地址（指针） #001 上的值，也就导致了两个变量的值都发生了改变。</p>
+<pre><code>let a = {
+age: 1
+}
+let b = a
+a.age = 2
+console.log(b.age) // 2
+
+//这时候需要使用浅拷贝
+</code></pre>
+<p>//例子</p>
+<pre><code>var obj1={
+name:&quot;风斯托罗斯基&quot;,
+age:20
+  };
+
+//方法一
+
+var obj2={};
+function extend(a,b) {
+//把a对象中的东西,拷贝到b对象中
+for(var key in a){
+b[key]=a[key];
+}
+}
+extend(obj1,obj2);
+console.dir(obj1);
+console.dir(obj2);
+
+//方法二
+var obj3= Object.assign({},obj1);
+console.dir(obj1);
+console.dir(obj3);
+
+
+//Object.assign方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
+//const target = { a: 1, b: 2 };
+//const source = { b: 4, c: 5 };
+//const returnedTarget = Object.assign(target, source);
+//console.log(target);
+//expected output: Object { a: 1, b: 4, c: 5 }
+//console.log(returnedTarget);
+// expected output: Object { a: 1, b: 4, c: 5 }
+
+
+//方法三
+
+var obj4= {...obj1};
+console.dir(obj1);
+console.dir(obj4);
+</code></pre>
+<h1>深拷贝</h1>
+<h2>通常有下面两种方法实现深拷贝：</h2>
+<ul>
+<li>迭代递归法</li>
+<li>序列化反序列化法</li>
+</ul>
+<p>结语
+日常深拷贝，建议序列化反序列化方法。
+面试时遇见面试官搞事情，写一个能拷贝自身可枚举、自身不可枚举、自身 Symbol 类型键、原型上可枚举、原型上不可枚举、原型上的 Symol 类型键，循环引用也可以拷的深拷贝函数：
+https://www.jianshu.com/p/b08bc61714c7</p>
+<pre><code>var obj1={
+name:&quot;风斯托罗斯基&quot;,
+age:20,
+car:[&quot;奔驰&quot;,&quot;宝马&quot;,&quot;奥拓&quot;],
+dog:{
+  name:&quot;哮天犬&quot;,
+  age:2,
+  color:&quot;黑色&quot;
+}
+  };
+
+//这时候需要深拷贝
+
+//方法一
+var obj2={};
+function extend(a,b){
+   for(key in obj1){
+   var item = a[key];
+   if(item instanceof Array){
+     b[key]=[];
+      extend(item,b[key])
+    } else if(item instanceof Object){
+     b[key] = {};
+     extend(item,b[key]);
+    } else {
+      b[key] = item
+    }
+   }
+}
+
+extend(obj1,obj2);
+console.dir(obj2);
+console.dir(obj1);
+
+
+//方法二
+var obj3 = JSON.parse(JSON.stringify(obj1))
+
+console.dir(obj3);
+console.dir(obj1);
+
+// 但是该方法也是有局限性的：
+
+// 会忽略 undefined
+// 会忽略 symbol
+// 不能序列化函数
+// 不能解决循环引用的对象
+
+
+
+//方法三
+ function deepClone(obj) {
+   function isObject(o) {
+     return (typeof o === 'object' || typeof o === 'function') &amp;&amp; o !== null
+   }
+
+   if (!isObject(obj)) {
+     throw new Error('非对象')
+   }
+
+    let isArray = Array.isArray(obj)
+    let newObj = isArray ? [...obj] : { ...obj }
+    Reflect.ownKeys(newObj).forEach(key =&gt; {
+      newObj[key] = isObject(obj[key]) ? deepClone(obj[key]) : obj[key]
+    })
+
+    return newObj
+  }
+
+  let obj = {
+    a: [1, 2, 3],
+    b: {
+      c: 2,
+      d: 3
+    }
+  }
+  let newObj = deepClone(obj)
+  newObj.b.c = 1
+  console.log(obj.b.c) // 2
+</code></pre>
+<p></body>
+</html></p>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
+<p></body>
+</html></p>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
