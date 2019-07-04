@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- saved from url=(0073)file:///C:/Users/Administrator/AppData/Local/Temp/MarkdownPadPreview.html -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>架构师启蒙课一</title>
@@ -388,6 +388,31 @@ npm install css-loader --save-dev
 </li>
 <li>
 <p>配置webpack.config.js文件</p>
+
+<p>webpack加载loader是有顺序的，是从下到上，从右到左的执行顺序.
+    例子：
+  </p>
+    <code>
+
+        module:{
+          rules:[{
+              test:/.\scss$/,
+              use:[
+                'style-loader',
+                'css-loader',
+                'sass-loader',
+              ]
+          }]
+      }
+    </code>
+    
+    <p>
+      所以当我们使用sass的时候，配置的sass-loader 先将sass转化为css，给到css-loader，处理好之后给
+      到 style-loader 挂载到head页面上
+    </p>
+
+
+
 <pre><code>const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -413,7 +438,16 @@ module.exports = {
   ]
 }
 </code></pre>
-
+  <p>css增加厂商前缀</p>
+  <pre><code>
+     安装 postcss-loader 配置 postcss.config.js 
+     module.exports = {
+      plugins: [
+          require('autoprefixer')
+      ]
+    }
+    安装autoprefixer 即可实现
+  </code></pre>
 </li>
 <li>
 <p>在sync目录下的index.js文件中，导入main.css。（sync目录下的js文件，一定不能写成sync.js。会有意想不到的结果。）</p>
