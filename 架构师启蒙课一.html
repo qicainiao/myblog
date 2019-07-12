@@ -765,6 +765,26 @@ export {
 </ol>
 <h2>注意点：</h2>
 <ol>
+<li>
+  babel步骤  
+  1 babel-loader  
+  2  "@babel/core": "^7.5.4", "@babel/preset-env": "^7.5.4", 配置preset-env 
+  3  对于new Promise这类语法低版本
+  浏览器还是识别不了，这时候 使用 @babel/polyfill  在需要的文件里面引入 @babel/polyfill, 这是该文件就会非常大，因为把@babel/polyfill都打进去了。
+  我们并不想这样，只想把new Promise 解析成低版本浏览器识别的即可  
+  4 这时候时间简单配置就可实现上面的想法  
+  {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "entry"
+        }
+      ]
+    ]
+  }
+  意思是只加载使用到的部分，js打包文件就会变小
+</li>  
 <li>package.json文件中，有一些关键字不能乱动，如果乱改，会出现麻烦。这些关键字（例如test）可以使用npm test直接运行，其它自定义的需要使用npm run 自定义的名字    运行。
 我们可以直接输入npm命令查看都有哪些关键字</li>
 <li>现在向后台发请求，已经不再用ajax了，而是用fatch("要请求的地址")和navigator.sendBeacon("请求地址")。如果是做统计的时候，就用navigator.sendBeacon("")，它不占浏览器的并发。</li>
