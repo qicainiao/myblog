@@ -19,7 +19,7 @@
 - [Vue源码](https://qicainiao.github.io/myblog/Vue源码.html)
 - [前端工程化](https://qicainiao.github.io/myblog/前端工程化.html)
 - [架构师启蒙一](https://qicainiao.github.io/myblog/架构师启蒙课一.html)
-- [架构师启蒙二](https://qicainiao.github.io/myblog/架构师启蒙课第二讲..html)
+- [架构师启蒙二](https://qicainiao.github.io/myblog/架构师启蒙课第二讲.html)
 - [架构师启蒙三](https://qicainiao.github.io/myblog/架构师启蒙课第三讲mpa.html)
 - [架构师启蒙四](https://qicainiao.github.io/myblog/架构师启蒙课第四讲.html)
 - [架构师启蒙五](https://qicainiao.github.io/myblog/架构师启蒙课第五讲.html)
